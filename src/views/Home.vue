@@ -1,120 +1,127 @@
-<script setup>
-import { onMounted } from 'vue'
-import { gsap } from 'gsap'
-import { ScrollTrigger } from 'gsap/ScrollTrigger'
-
-gsap.registerPlugin(ScrollTrigger)
-
-// 个人资料数据
-const profile = {
-  name: "滕昊达",
-  tags: ["创意开发者", "资深前端开发师", "数字游民"],
-  intro: "我热衷于在代码与美学之间寻找平衡。目前专注于构建高性能、易用的 Web 应用，用技术为创意赋能。",
-  stats: [
-    { label: '项目经验', value: '50+' },
-    { label: '开源贡献', value: '120+' },
-    { label: '专注领域', value: 'Vue / 设计' }
-  ],
-  skills: ['Vue 3', 'TypeScript', 'Tailwind CSS', 'Node.js', 'Figma', 'Three.js']
-}
-
-onMounted(() => {
-  // 简单的文字浮现效果
-  gsap.from(".animate-up", {
-    y: 40,
-    opacity: 0,
-    duration: 1,
-    stagger: 0.2,
-    ease: "power2.out"
-  })
-
-  // 滚动时卡片轻微浮现
-  gsap.utils.toArray('.scroll-reveal').forEach(el => {
-    gsap.from(el, {
-      scrollTrigger: {
-        trigger: el,
-        start: "top 90%",
-      },
-      y: 30,
-      opacity: 0,
-      duration: 0.8
-    })
-  })
-})
-</script>
-
 <template>
-  <div class="min-h-screen bg-[#0a0a0a] text-zinc-100 selection:bg-blue-500/30 font-sans">
+  <div class="relative min-h-screen w-full overflow-x-hidden bg-[#0a0a0c] text-white font-sans">
     
     <div class="fixed inset-0 z-0 overflow-hidden pointer-events-none">
-      <div class="absolute -top-[10%] -left-[10%] w-[40%] h-[40%] bg-blue-600/10 blur-[100px] rounded-full"></div>
-      <div class="absolute top-[20%] -right-[10%] w-[30%] h-[30%] bg-purple-600/10 blur-[100px] rounded-full"></div>
+      <div class="absolute -top-[10%] -left-[10%] w-[500px] h-[500px] bg-purple-600/30 rounded-full blur-[120px] animate-pulse"></div>
+      <div class="absolute top-[20%] -right-[5%] w-[400px] h-[400px] bg-blue-600/20 rounded-full blur-[100px] animate-bounce-slow"></div>
+      <div class="absolute -bottom-[10%] left-[20%] w-[600px] h-[600px] bg-pink-600/20 rounded-full blur-[150px]"></div>
     </div>
 
-    <main class="relative z-10 max-w-5xl mx-auto px-6 py-12 md:py-24">
+    <main class="relative z-10 container mx-auto px-6 py-12 flex flex-col items-center">
       
-      <nav class="flex justify-between items-center mb-20 animate-up">
-        <div class="text-xl font-bold tracking-tighter">THD.</div>
-        <div class="flex gap-6 text-sm text-zinc-400">
-          <a href="#" class="hover:text-white transition-colors">关于</a>
-          <a href="#" class="hover:text-white transition-colors">作品</a>
-          <a href="#" class="hover:text-white transition-colors">联系</a>
+      <header class="text-center mb-16 animate-fade-in-up">
+        <div class="inline-block px-4 py-1.5 mb-4 text-sm font-medium tracking-wider uppercase border border-white/20 rounded-full bg-white/5 backdrop-blur-md">
+          欢迎来到THD的个人站
         </div>
-      </nav>
-
-      <section class="mb-32">
-        <!-- <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full border border-zinc-800 bg-zinc-900/50 text-xs text-zinc-400 mb-8 animate-up">
-          <span class="w-2 h-2 rounded-full bg-green-500 animate-pulse"></span>
-          <span>现可承接新项目</span>
-        </div> -->
-        
-        <h1 class="text-5xl md:text-8xl font-bold tracking-tight mb-8 animate-up">
-          你好，我是 <span class="text-blue-500">{{ profile.name }}</span>
+        <h1 class="text-5xl md:text-7xl font-black mb-6 bg-gradient-to-r from-cyan-400 via-purple-500 to-pink-500 bg-clip-text text-transparent">
+          你好, 我是 <span class="text-white">THD</span>
         </h1>
-        
-        <div class="flex flex-wrap gap-3 mb-10 animate-up mt-3">
-          <span v-for="tag in profile.tags" :key="tag" 
-            class="px-4 py-1.5 rounded-lg bg-zinc-900 border border-zinc-800 text-sm">
-            {{ tag }}
-          </span>
-        </div>
-
-        <p class="text-lg md:text-xl text-zinc-400 max-w-2xl leading-relaxed animate-up">
-          {{ profile.intro }}
+        <p class="text-gray-400 text-lg md:text-xl max-w-2xl mx-auto leading-relaxed pt-2">
+          一个热爱代码、设计与生活的开发者。在这里，你可以找到我所有的实验室成果与日常奇思妙想。
         </p>
-      </section>
+      </header>
 
-      <section class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-32 scroll-reveal">
-        <div v-for="stat in profile.stats" :key="stat.label" 
-          class="p-8 rounded-2xl bg-zinc-900/50 border border-zinc-800 hover:border-zinc-700 transition-colors group">
-          <p class="text-zinc-500 text-sm mb-2">{{ stat.label }}</p>
-          <p class="text-3xl font-bold group-hover:text-blue-400 transition-colors">{{ stat.value }}</p>
-        </div>
-      </section>
-
-      <section class="mb-32 scroll-reveal">
-        <h2 class="text-2xl font-bold mb-10">技术栈 / Stack</h2>
-        <div class="flex flex-wrap gap-4">
-          <div v-for="skill in profile.skills" :key="skill" 
-            class="px-6 py-4 rounded-xl bg-zinc-900/30 border border-zinc-800 text-lg font-medium hover:bg-zinc-800 transition-all cursor-default">
-            {{ skill }}
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 w-full max-w-6xl">
+        <div 
+          v-for="(module, index) in modules" 
+          :key="index"
+          class="group relative p-8 rounded-3xl border border-white/10 bg-white/5 backdrop-blur-xl hover:bg-white/10 transition-all duration-500 hover:-translate-y-2 hover:shadow-[0_20px_50px_rgba(79,_70,_229,_0.3)] cursor-pointer"
+        >
+          <div class="absolute inset-0 rounded-3xl bg-gradient-to-br from-cyan-500/20 to-purple-500/20 opacity-0 group-hover:opacity-100 transition-opacity"></div>
+          
+          <div class="relative z-10">
+            <div class="text-4xl mb-4">{{ module.icon }}</div>
+            <h3 class="text-2xl font-bold mb-2">{{ module.title }}</h3>
+            <p class="text-gray-400 text-sm leading-relaxed mb-6">{{ module.desc }}</p>
+            <div class="flex items-center text-cyan-400 font-semibold group-hover:translate-x-2 transition-transform">
+              探索更多 <span class="ml-2">→</span>
+            </div>
           </div>
         </div>
-      </section>
+      </div>
+
+      <footer class="mt-20 flex space-x-8 text-gray-500">
+        <!-- <a href="#" class="hover:text-white transition-colors">GitHub</a> -->
+        <!-- <a href="#" class="hover:text-white transition-colors">Blog</a>
+        <a href="#" class="hover:text-white transition-colors">Twitter</a> -->
+      </footer>
     </main>
   </div>
 </template>
 
-<style>
+<script setup>
+import { ref } from 'vue'
 
-/* 针对全站的流畅滚动 */
-html {
-  scroll-behavior: smooth;
+// 模块数据：可以自由增减
+const modules = ref([
+  {
+    title: '我的作品集',
+    desc: '沉淀了我过去两年的所有前端开发项目，包含 Vue, React 和一些奇奇怪怪的实验。',
+    icon: '🚀',
+    link: '/portfolio'
+  },
+  {
+    title: '技术博客',
+    desc: '偶尔写写代码心得，大部分时间在记录如何解决那些把自己坑了三小时的 Bug。',
+    icon: '✍️',
+    link: '/blog'
+  },
+  {
+    title: '实验室',
+    desc: '一些花里胡哨的 CSS 特效、Canvas 动画和 AI 相关的各种小玩意儿。',
+    icon: '🧪',
+    link: '/lab'
+  },
+  {
+    title: '音乐收藏',
+    desc: '写代码时循环播放的歌单，从 Lo-Fi 到重金属，风格极其分裂。',
+    icon: '🎵',
+    link: '/music'
+  },
+  {
+    title: '关于我',
+    desc: '想知道我是谁？想找我合作？点击这里查看我的详细简历和联系方式。',
+    icon: '👨‍💻',
+    link: '/about'
+  },
+  {
+    title: '碎碎念',
+    desc: '生活碎片记录，包含摄影、旅行以及对这个世界的各种吐槽。',
+    icon: '📸',
+    link: '/moments'
+  }
+])
+</script>
+
+<style scoped>
+/* 自定义动画 */
+@keyframes fade-in-up {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 
-/* 简单的文字平滑过渡 */
-body {
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
+.animate-fade-in-up {
+  animation: fade-in-up 1s ease-out forwards;
+}
+
+.animate-bounce-slow {
+  animation: bounce 6s infinite;
+}
+
+@keyframes bounce {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-30px); }
+}
+
+/* 隐藏滚动条但保留功能 */
+::-webkit-scrollbar {
+  width: 0px;
+  background: transparent;
 }
 </style>
