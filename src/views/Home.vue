@@ -25,6 +25,7 @@
         <div 
           v-for="(module, index) in modules" 
           :key="index"
+          @click="gotoroute(module.link)"
           class="group relative p-8 rounded-3xl border border-white/10 bg-white/5 backdrop-blur-xl hover:bg-white/10 transition-all duration-500 hover:-translate-y-2 hover:shadow-[0_20px_50px_rgba(79,_70,_229,_0.3)] cursor-pointer"
         >
           <div class="absolute inset-0 rounded-3xl bg-gradient-to-br from-cyan-500/20 to-purple-500/20 opacity-0 group-hover:opacity-100 transition-opacity"></div>
@@ -49,48 +50,57 @@
   </div>
 </template>
 
-<script setup>
+<script setup lang="ts">
 import { ref } from 'vue'
+import { useRouter } from 'vue-router'
+
+const router = useRouter()
 
 // 模块数据：可以自由增减
 const modules = ref([
   {
-    title: '我的作品集',
-    desc: '沉淀了我过去两年的所有前端开发项目，包含 Vue, React 和一些奇奇怪怪的实验。',
+    title: '未来趋势',
+    desc: 'THD输入足够的数据，通过gpt5.4模型,生成未来金融的趋势。',
     icon: '🚀',
-    link: '/portfolio'
+    link: '/Future'
   },
   {
-    title: '技术博客',
-    desc: '偶尔写写代码心得，大部分时间在记录如何解决那些把自己坑了三小时的 Bug。',
+    title: '我的履历',
+    desc: 'THD的个人履历，包含个人信息、工作经历、项目经验、教育经历等。',
     icon: '✍️',
-    link: '/blog'
+    link: '/Mine'
   },
   {
     title: '实验室',
     desc: '一些花里胡哨的 CSS 特效、Canvas 动画和 AI 相关的各种小玩意儿。',
     icon: '🧪',
-    link: '/lab'
+    link: ''
   },
   {
     title: '音乐收藏',
     desc: '写代码时循环播放的歌单，从 Lo-Fi 到重金属，风格极其分裂。',
     icon: '🎵',
-    link: '/music'
+    link: ''
   },
   {
     title: '关于我',
     desc: '想知道我是谁？想找我合作？点击这里查看我的详细简历和联系方式。',
     icon: '👨‍💻',
-    link: '/about'
+    link: ''
   },
   {
     title: '碎碎念',
     desc: '生活碎片记录，包含摄影、旅行以及对这个世界的各种吐槽。',
     icon: '📸',
-    link: '/moments'
+    link: ''
   }
 ])
+const gotoroute = (link: string) => {
+  if (link) {
+    const routeUrl = router.resolve(link)
+    window.open(routeUrl.href, '_blank')
+  }
+}
 </script>
 
 <style scoped>
