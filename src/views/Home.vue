@@ -97,8 +97,7 @@ const modules = ref([
 ])
 const gotoroute = (link: string) => {
   if (link) {
-    const routeUrl = router.resolve(link)
-    window.open(routeUrl.href, '_blank')
+    router.push(link)
   }
 }
 </script>
